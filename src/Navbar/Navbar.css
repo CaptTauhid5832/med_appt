@@ -1,0 +1,162 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 40px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.nav__logo a {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #3685fb;
+  text-decoration: none;
+}
+
+.nav__icon {
+  display: none;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.nav__links {
+  display: flex;
+  list-style: none;
+  gap: 32px;
+  align-items: center;
+}
+
+.nav__links .link a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+}
+
+.nav__links .link a:hover {
+  color: #3685fb;
+}
+
+.btn1 {
+  padding: 8px 18px;
+  border: none;
+  border-radius: 6px;
+  background-color: #3685fb;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn1:hover {
+  background-color: #2a6fd6;
+}
+
+@media (max-width: 768px) {
+  .nav__icon {
+    display: block;
+  }
+  .nav__links {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    background: white;
+    padding: 16px;
+    border: 1px solid #e0e0e0;
+  }
+  .nav__links.active {
+    display: flex;
+  }
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 40px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.nav__logo a {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #3685fb;
+  text-decoration: none;
+}
+
+.nav__icon {
+  display: none;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.nav__links {
+  display: flex;
+  list-style: none;
+  gap: 32px;
+  align-items: center;
+}
+
+.nav__links .link a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+}
+
+.nav__links .link a:hover {
+  color: #3685fb;
+}
+
+.btn1 {
+  padding: 8px 18px;
+  border: none;
+  border-radius: 6px;
+  background-color: #3685fb;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn1:hover {
+  background-color: #2a6fd6;
+}
+
+@media (max-width: 768px) {
+  .nav__icon {
+    display: block;
+  }
+  .nav__links {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    background: white;
+    padding: 16px;
+    border: 1px solid #e0e0e0;
+  }
+  .nav__links.active {
+    display: flex;
+  }
+}
