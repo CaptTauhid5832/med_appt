@@ -45,3 +45,9 @@
 .review-form .submit-btn:hover {
   background-color: #1e7e34;
 }
+.warning { color: #dc3545; font-weight: bold; }
+.rating-selector { margin: 10px 0; }
+.star { font-size: 24px; cursor: pointer; color: #ccc; margin-right: 4px; }
+.star.filled { color: #f5a623; }
+.submitted-review { margin-top: 16px; padding: 12px; border: 2px solid #2190FF; border-radius: 8px; background-color: #eef7ff; }
+.review-form button:disabled, .feedback-btn:disabled { opacity: 0.6; cursor: not-allowed; }

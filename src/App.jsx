@@ -5,6 +5,7 @@ import SignUp from './Sign_Up/SignUp';
 import InstantConsultation from './Components/InstantConsultationBooking/InstantConsultation';
 import FindDoctorSearch from './Components/FindDoctorSearch/FindDoctorSearch';
 import DoctorCard from './Components/DoctorCard/DoctorCard';
+import ReviewForm from './Components/ReviewForm/ReviewForm';
 import './App.css';
 const Home = () => (
   <div>
@@ -13,6 +14,7 @@ const Home = () => (
       <DoctorCard name="Dr. Sarah Chen" speciality="Cardiologist" experience={12} ratings={4.8} />
       <DoctorCard name="Dr. Marcus Alan" speciality="Pediatrician" experience={8} ratings={4.6} />
     </div>
+      <ReviewForm />
   </div>
 );
 function App() {
