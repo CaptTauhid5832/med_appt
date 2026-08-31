@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './DoctorCard.css';
+import AppointmentForm from '../AppointmentForm/AppointmentForm';
 
 const DoctorCard = ({ name, speciality, experience, ratings }) => {
+  const [showForm, setShowForm] = useState(false);
+
   return (
     <div className="doctor-card-container">
       <div className="doctor-card-details-container">
@@ -17,14 +20,20 @@ const DoctorCard = ({ name, speciality, experience, ratings }) => {
           <div className="doctor-card-detail-consultationfees">Ratings: {ratings}</div>
         </div>
         <div>
-          <button className="book-appointment-btn">
+          <button className="book-appointment-btn" onClick={() => setShowForm(true)}>
             <div>Book Appointment</div>
             <div>No Booking Fee</div>
           </button>
         </div>
       </div>
+      {showForm && (
+        <AppointmentForm
+          doctorName={name}
+          doctorSpeciality={speciality}
+          onClose={() => setShowForm(false)}
+        />
+      )}
     </div>
   );
 };
-
 export default DoctorCard;
