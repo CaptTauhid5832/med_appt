@@ -1,46 +1,114 @@
-import React, { useState, useEffect } from 'react';
-import './ProfileCard.css';
+import React, { useEffect, useState } from 'react';
 import { API_URL } from '../../config';
+import { useNavigate } from 'react-router-dom';
+import './ProfileCard.css';
 const ProfileCard = () => {
-  const [profile, setProfile] = useState(null);
-  const [error, setError] = useState('');
+  const [userDetails, setUserDetails] = useState({});
+  const [updatedDetails, setUpdatedDetails] = useState({});
+  const [editMode, setEditMode] = useState(false);
+  const navigate = useNavigate();
   useEffect(() => {
-    const token = sessionStorage.getItem('auth-token');
-    if (!token) {
-      setError('Please log in to view your profile.');
-      return;
+    const authtoken = sessionStorage.getItem('auth-token');
+    if (!authtoken) {
+      navigate('/login');
+    } else {
+      fetchUserProfile();
     }
-    fetch(`${API_URL}/api/auth/user`, {
-      method: 'GET',
-      headers: { 'auth-token': token },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.error) {
-          setError(typeof data.error === 'string' ? data.error : 'Unable to load profile.');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [navigate]);
+  const fetchUserProfile = async () => {
+    try {
+      const authtoken = sessionStorage.getItem('auth-token');
+      const email = sessionStorage.getItem('email');
+      if (!authtoken) {
+        navigate('/login');
+      } else {
+        const response = await fetch(`${API_URL}/api/auth/user`, {
+          headers: {
+            Authorization: `Bearer ${authtoken}`,
+            Email: email,
+          },
+        });
+        if (response.ok) {
+          const user = await response.json();
+          setUserDetails(user);
+          setUpdatedDetails(user);
         } else {
-          setProfile(data);
+          throw new Error('Failed to fetch user profile');
         }
-      })
-      .catch(() => setError('Unable to load profile.'));
-  }, []);
-  if (error) {
-    return <div className="profile-card"><p>{error}</p></div>;
-  }
-  if (!profile) {
-    return <div className="profile-card"><p>Loading profile...</p></div>;
-  }
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const handleEdit = () => {
+    setEditMode(true);
+  };
+  const handleInputChange = (e) => {
+    setUpdatedDetails({
+      ...updatedDetails,
+      [e.target.name]: e.target.value,
+    });
+  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const authtoken = sessionStorage.getItem('auth-token');
+      const email = sessionStorage.getItem('email');
+      if (!authtoken || !email) {
+        navigate('/login');
+        return;
+      }
+      const payload = { ...updatedDetails };
+      const response = await fetch(`${API_URL}/api/auth/user`, {
+        method: 'PUT',
+        headers: {
+          Authorization: `Bearer ${authtoken}`,
+          'Content-Type': 'application/json',
+          Email: email,
+        },
+        body: JSON.stringify(payload),
+      });
+      if (response.ok) {
+        sessionStorage.setItem('name', updatedDetails.name);
+        sessionStorage.setItem('phone', updatedDetails.phone);
+        setUserDetails(updatedDetails);
+        setEditMode(false);
+        alert('Profile Updated Successfully!');
+        navigate('/');
+      } else {
+        throw new Error('Failed to update profile');
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
-    <div className="profile-card">
-      <div className="profile-avatar">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="48" height="48" fill="#3685fb">
-          <path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3 0 498.7 13.3 512 29.7 512l388.6 0c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304l-91.4 0z" />
-        </svg>
-      </div>
-      <h3>{profile.name}</h3>
-      <p><strong>Email:</strong> {profile.email}</p>
-      <p><strong>Phone:</strong> {profile.phone}</p>
-      {profile.role && <p><strong>Role:</strong> {profile.role}</p>}
+    <div className="profile-container">
+      {editMode ? (
+        <form onSubmit={handleSubmit}>
+          <label>
+            Email
+            <input type="email" name="email" value={userDetails.email || ''} disabled />
+          </label>
+          <label>
+            Name
+            <input type="text" name="name" value={updatedDetails.name || ''} onChange={handleInputChange} />
+          </label>
+          <label>
+            Phone
+            <input type="text" name="phone" value={updatedDetails.phone || ''} onChange={handleInputChange} />
+          </label>
+          <button type="submit">Save</button>
+        </form>
+      ) : (
+        <div className="profile-details">
+          <h1>Welcome, {userDetails.name}</h1>
+          <p><b>Email:</b> {userDetails.email}</p>
+          <p><b>Phone:</b> {userDetails.phone}</p>
+          <button onClick={handleEdit}>Edit</button>
+        </div>
+      )}
     </div>
   );
 };
