@@ -18,6 +18,7 @@ const ReportsLayout = () => {
             <th>Date</th>
             <th>Doctor</th>
             <th>Status</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -27,6 +28,24 @@ const ReportsLayout = () => {
               <td>{report.date}</td>
               <td>{report.doctor}</td>
               <td>{report.status}</td>
+              <td>
+                
+                  href="/patient_report.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="report-action-link"
+                >
+                  View
+                </a>
+                {' | '}
+                
+                  href="/patient_report.pdf"
+                  download="patient_report.pdf"
+                  className="report-action-link"
+                >
+                  Download
+                </a>
+              </td>
             </tr>
           ))}
         </tbody>
