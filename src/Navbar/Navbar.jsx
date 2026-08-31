@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import ProfileCard from '../Components/ProfileCard/ProfileCard';
 import './Navbar.css';
-
 const Navbar = () => {
   const [menuActive, setMenuActive] = useState(true);
-
+  const [profileOpen, setProfileOpen] = useState(false);
   const handleClick = () => {
     setMenuActive((prev) => !prev);
   };
-
+  const toggleProfile = () => {
+    setProfileOpen((prev) => !prev);
+  };
   return (
     <nav>
       <div className="nav__logo">
@@ -36,6 +38,14 @@ const Navbar = () => {
         <li className="link">
           <Link to="/appointments">Appointments</Link>
         </li>
+        <li className="link nav__profile">
+          <button className="btn1" onClick={toggleProfile}>Profile ▾</button>
+          {profileOpen && (
+            <div className="profile-dropdown">
+              <ProfileCard />
+            </div>
+          )}
+        </li>
         <li className="link">
           <Link to="/signup">
             <button className="btn1">Sign Up</button>
@@ -50,5 +60,4 @@ const Navbar = () => {
     </nav>
   );
 };
-
 export default Navbar;

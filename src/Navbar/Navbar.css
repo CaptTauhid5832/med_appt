@@ -159,4 +159,5 @@ nav {
   .nav__links.active {
     display: flex;
   }
-}
+}.nav__profile { position: relative; }
+.profile-dropdown { position: absolute; top: 48px; right: 0; z-index: 100; }
