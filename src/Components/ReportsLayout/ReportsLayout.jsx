@@ -29,22 +29,9 @@ const ReportsLayout = () => {
               <td>{report.doctor}</td>
               <td>{report.status}</td>
               <td>
-                
-                  href="/patient_report.pdf"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="report-action-link"
-                >
-                  View
-                </a>
+                <a href="/patient_report.pdf" target="_blank" rel="noopener noreferrer" className="report-action-link">View</a>
                 {' | '}
-                
-                  href="/patient_report.pdf"
-                  download="patient_report.pdf"
-                  className="report-action-link"
-                >
-                  Download
-                </a>
+                <a href="/patient_report.pdf" download="patient_report.pdf" className="report-action-link">Download</a>
               </td>
             </tr>
           ))}
