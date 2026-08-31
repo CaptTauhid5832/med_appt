@@ -1,23 +1,18 @@
+# Use official Node.js image as the base
 FROM node:20
-
-WORKDIR /app
-
-# Install root (frontend) dependencies
+# Set the working directory in the container
+WORKDIR /usr/src/app
+# Copy package.json and package-lock.json to container
 COPY package*.json ./
+# Install dependencies
 RUN npm install
-
-# Install server dependencies
-COPY server/package*.json ./server/
-RUN cd server && npm install
-
-# Copy the rest of the source code
+# Copy rest of the application to container
 COPY . .
-
-# Build the frontend and move it into server/build
+# Build the React/Vite application
 RUN npm run build
-
-WORKDIR /app/server
-
-EXPOSE 8181
-
-CMD ["node", "index"]
+# Install serve to serve the production build
+RUN npm install -g serve
+# Expose the port your app runs on
+EXPOSE 4173
+# Command to run your application
+CMD ["serve", "-s", "server/build", "-l", "4173"]
