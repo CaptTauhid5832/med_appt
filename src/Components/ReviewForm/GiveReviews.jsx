@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './ReviewForm.css';
-function GiveReviews() {
+function GiveReviews({ serial, doctorName, doctorSpeciality }) {
   const [showForm, setShowForm] = useState(false);
   const [submittedReview, setSubmittedReview] = useState(null);
   const [showWarning, setShowWarning] = useState(false);
@@ -15,49 +15,49 @@ function GiveReviews() {
       setSubmittedReview(formData);
       setShowWarning(false);
       setSubmitted(true);
-      setFormData({ name: '', review: '', rating: 0 });
+      setShowForm(false);
     } else {
       setShowWarning(true);
     }
   };
   return (
-    <div className="review-container">
-      <p>Provide feedback for your consultation.</p>
-      {!showForm ? (
-        <button className="feedback-btn" onClick={handleButtonClick} disabled={submitted}>
-          {submitted ? 'Feedback Submitted' : 'Click Here'}
-        </button>
-      ) : (
-        <form className="review-form" onSubmit={handleSubmit}>
-          {showWarning && <p className="warning">Please fill out all fields.</p>}
-          <div>
-            <label htmlFor="name">Name:</label>
-            <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} disabled={submitted} />
-          </div>
-          <div>
-            <label htmlFor="review">Review:</label>
-            <textarea id="review" name="review" value={formData.review} onChange={handleChange} disabled={submitted} />
-          </div>
-          <div className="rating-selector">
-            <label>Rating:</label>
-            {[1, 2, 3, 4, 5].map((star) => (
-              <span key={star} className={`star ${formData.rating >= star ? 'filled' : ''}`} onClick={() => !submitted && handleRating(star)}>★</span>
-            ))}
-          </div>
-          <button type="submit" className="submit-btn" disabled={submitted}>
-            {submitted ? 'Submitted' : 'Submit'}
+    <>
+      <tr>
+        <td>{serial}</td>
+        <td>{doctorName}</td>
+        <td>{doctorSpeciality}</td>
+        <td>
+          <button className="feedback-btn" onClick={handleButtonClick} disabled={submitted}>
+            {submitted ? 'Submitted' : 'Click Here'}
           </button>
-        </form>
+        </td>
+        <td>{submittedReview ? `${submittedReview.rating}/5 - ${submittedReview.review}` : ''}</td>
+      </tr>
+      {showForm && (
+        <tr>
+          <td colSpan="5">
+            <form className="review-form" onSubmit={handleSubmit}>
+              {showWarning && <p className="warning">Please fill out all fields.</p>}
+              <div>
+                <label htmlFor={`name-${serial}`}>Name:</label>
+                <input type="text" id={`name-${serial}`} name="name" value={formData.name} onChange={handleChange} />
+              </div>
+              <div>
+                <label htmlFor={`review-${serial}`}>Review:</label>
+                <textarea id={`review-${serial}`} name="review" value={formData.review} onChange={handleChange} />
+              </div>
+              <div className="rating-selector">
+                <label>Rating:</label>
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <span key={star} className={`star ${formData.rating >= star ? 'filled' : ''}`} onClick={() => handleRating(star)}>★</span>
+                ))}
+              </div>
+              <button type="submit" className="submit-btn">Submit</button>
+            </form>
+          </td>
+        </tr>
       )}
-      {submittedReview && (
-        <div className="submitted-review">
-          <h3>Your Review</h3>
-          <p><strong>Name:</strong> {submittedReview.name}</p>
-          <p><strong>Rating:</strong> {submittedReview.rating} / 5</p>
-          <p><strong>Review:</strong> {submittedReview.review}</p>
-        </div>
-      )}
-    </div>
+    </>
   );
 }
 export default GiveReviews;
