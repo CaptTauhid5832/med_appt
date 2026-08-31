@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import ProfileCard from '../Components/ProfileCard/ProfileCard';
+import ReportsLayout from '../Components/ReportsLayout/ReportsLayout';
 import './Navbar.css';
 const Navbar = () => {
   const [menuActive, setMenuActive] = useState(true);
   const [profileOpen, setProfileOpen] = useState(false);
+  const [profileTab, setProfileTab] = useState('profile');
   const handleClick = () => {
     setMenuActive((prev) => !prev);
   };
@@ -42,7 +44,21 @@ const Navbar = () => {
           <button className="btn1" onClick={toggleProfile}>Profile ▾</button>
           {profileOpen && (
             <div className="profile-dropdown">
-              <ProfileCard />
+              <div className="profile-dropdown-tabs">
+                <button
+                  className={profileTab === 'profile' ? 'active' : ''}
+                  onClick={() => setProfileTab('profile')}
+                >
+                  Profile
+                </button>
+                <button
+                  className={profileTab === 'reports' ? 'active' : ''}
+                  onClick={() => setProfileTab('reports')}
+                >
+                  Your Reports
+                </button>
+              </div>
+              {profileTab === 'profile' ? <ProfileCard /> : <ReportsLayout />}
             </div>
           )}
         </li>
