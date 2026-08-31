@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { API_URL } from '../../config';
 import { useNavigate } from 'react-router-dom';
 import './ProfileCard.css';
+
 const ProfileCard = () => {
   const [userDetails, setUserDetails] = useState({});
   const [updatedDetails, setUpdatedDetails] = useState({});
   const [editMode, setEditMode] = useState(false);
   const navigate = useNavigate();
+
   useEffect(() => {
     const authtoken = sessionStorage.getItem('auth-token');
     if (!authtoken) {
@@ -16,6 +18,7 @@ const ProfileCard = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navigate]);
+
   const fetchUserProfile = async () => {
     try {
       const authtoken = sessionStorage.getItem('auth-token');
@@ -41,15 +44,18 @@ const ProfileCard = () => {
       console.error(error);
     }
   };
+
   const handleEdit = () => {
     setEditMode(true);
   };
+
   const handleInputChange = (e) => {
     setUpdatedDetails({
       ...updatedDetails,
       [e.target.name]: e.target.value,
     });
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -83,6 +89,7 @@ const ProfileCard = () => {
       console.error(error);
     }
   };
+
   return (
     <div className="profile-container">
       {editMode ? (
@@ -112,4 +119,5 @@ const ProfileCard = () => {
     </div>
   );
 };
+
 export default ProfileCard;
