@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import ProfileCard from '../Components/ProfileCard/ProfileCard';
 import ReportsLayout from '../Components/ReportsLayout/ReportsLayout';
 import './Navbar.css';
@@ -7,11 +7,16 @@ const Navbar = () => {
   const [menuActive, setMenuActive] = useState(true);
   const [profileOpen, setProfileOpen] = useState(false);
   const [profileTab, setProfileTab] = useState('profile');
+  const navigate = useNavigate();
   const handleClick = () => {
     setMenuActive((prev) => !prev);
   };
   const toggleProfile = () => {
     setProfileOpen((prev) => !prev);
+  };
+  const handleLogout = () => {
+    sessionStorage.removeItem('token');
+    navigate('/login');
   };
   return (
     <nav>
@@ -71,6 +76,9 @@ const Navbar = () => {
           <Link to="/login">
             <button className="btn1">Login</button>
           </Link>
+        </li>
+        <li className="link">
+          <button className="btn1" onClick={handleLogout}>Logout</button>
         </li>
       </ul>
     </nav>
