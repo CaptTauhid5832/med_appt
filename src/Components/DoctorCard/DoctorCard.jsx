@@ -1,9 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './DoctorCard.css';
 import AppointmentForm from '../AppointmentForm/AppointmentForm';
 
 const DoctorCard = ({ name, speciality, experience, ratings }) => {
   const [showForm, setShowForm] = useState(false);
+  const [isBooked, setIsBooked] = useState(false);
+
+  useEffect(() => {
+    const existing = JSON.parse(localStorage.getItem('appointments') || '[]');
+    setIsBooked(existing.some((a) => a.doctorName === name));
+  }, [name]);
+
+  const handleCancelAppointment = () => {
+    const existing = JSON.parse(localStorage.getItem('appointments') || '[]');
+    const updated = existing.filter((a) => a.doctorName !== name);
+    localStorage.setItem('appointments', JSON.stringify(updated));
+    setIsBooked(false);
+  };
 
   return (
     <div className="doctor-card-container">
@@ -20,17 +33,23 @@ const DoctorCard = ({ name, speciality, experience, ratings }) => {
           <div className="doctor-card-detail-consultationfees">Ratings: {ratings}</div>
         </div>
         <div>
-          <button className="book-appointment-btn" onClick={() => setShowForm(true)}>
-            <div>Book Appointment</div>
-            <div>No Booking Fee</div>
-          </button>
+          {isBooked ? (
+            <button className="book-appointment-btn" onClick={handleCancelAppointment}>
+              <div>Cancel Appointment</div>
+            </button>
+          ) : (
+            <button className="book-appointment-btn" onClick={() => setShowForm(true)}>
+              <div>Book Appointment</div>
+              <div>No Booking Fee</div>
+            </button>
+          )}
         </div>
       </div>
       {showForm && (
         <AppointmentForm
           doctorName={name}
           doctorSpeciality={speciality}
-          onClose={() => setShowForm(false)}
+          onClose={() => { setShowForm(false); setIsBooked(true); }}
         />
       )}
     </div>
